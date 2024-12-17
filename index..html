@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum sekali lihat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+    .post {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .post:last-child {
+      border-bottom: none;
+    }
+    .username {
+      font-weight: bold;
+      color: #007bff;
+    }
+    form {
+      margin-top: 20px;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>gatau cuman iseng bjir</h1>
+    <p>Semua orang bebas berpendapat!</p>
+  </header>
+  <main>
+    <h2>Postingan</h2>
+    <div id="posts">
+      <p>Belum ada pendapat. Jadi yang pertama!</p>
+    </div>
+
+    <h2>Tulis Pendapat</h2>
+    <form id="postForm">
+      <input type="text" id="username" placeholder="Nama Kamu" required>
+      <textarea id="message" placeholder="Tulis pendapatmu di sini..." rows="4" required></textarea>
+      <button type="submit">Kirim</button>
+    </form>
+  </main>
+
+  <script>
+    const postsDiv = document.getElementById('posts');
+    const postForm = document.getElementById('postForm');
+
+    // Array buat nyimpen postingan sementara
+    const posts = [];
+
+    // Fungsi buat render postingan
+    function renderPosts() {
+      postsDiv.innerHTML = ''; // Hapus konten lama
+      if (posts.length === 0) {
+        postsDiv.innerHTML = '<p>Belum ada pendapat. Jadi yang pertama!</p>';
+      } else {
+        posts.forEach(post => {
+          const postDiv = document.createElement('div');
+          postDiv.classList.add('post');
+          postDiv.innerHTML = `
+            <p class="username">${post.username}:</p>
+            <p>${post.message}</p>
+          `;
+          postsDiv.appendChild(postDiv);
+        });
+      }
+    }
+
+    // Event Listener buat form submit
+    postForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Cegah reload halaman
+
+      const username = document.getElementById('username').value;
+      const message = document.getElementById('message').value;
+
+      // Tambah postingan baru ke array
+      posts.push({ username, message });
+
+      // Reset form
+      postForm.reset();
+
+      // Render ulang postingan
+      renderPosts();
+    });
+
+    // Render pertama kali
+    renderPosts();
+  </script>
+</body>
+</html>
